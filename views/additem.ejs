@@ -1,0 +1,156 @@
+<% include partials/head %>
+<div class="col-xs-12" style="height:50px;"></div>
+<h1 class="text-center">问卷调查</h1>
+<div>
+    <p class="text-faded text-center mb-8" style="font-family: AvenirNext-Bold;font-size: 30px; ">在线设计问卷，让您的工作事半功倍</p>
+    <div class="container" style="margin-top: 50px;margin-bottom: 40px;">
+        <div class="col-12" style="margin: auto">
+            <form>
+                <div class="form-group">
+                    <label for="formname">问卷名称</label>
+                    <input type="text" class="form-control" id="formname" placeholder="问卷名称">
+                </div>
+                <div class="form-group">
+                    <label for="formabstract">问卷简介</label>
+                    <input type="text" class="form-control" id="formabstract" placeholder="问卷简介">
+                </div>
+                <div class="form-group">
+                    <label for="formtime">问卷时间</label>
+                    <div class="input-group" id="formtime">
+                        <input type="text" class="input-sm form-control" name="start" placeholder="YYYY-MM-DD" />
+                        <span class="input-group-addon">TO</span>
+                        <input type="text" class="input-sm form-control" name="end" placeholder="YYYY-MM-DD" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="formaccesstype">填写方式</label>
+                    <select class="custom-select" multiple id="formaccesstype">
+                        <option value="0">仅限注册用户</option>
+                        <option value="1">无需注册，可填写 n 次</option>
+                        <option value="2">无需注册，每天可填写 n 次</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="formaccessnum">填写次数</label>
+                    <input type="text" class="form-control" id="formaccessnum" placeholder="10">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="container" style="margin-top: 50px;margin-bottom: 40px;">
+    <div class="col-12" style="margin: auto">
+        <div class="form-group" id="questionTemplate" style="display: none;">
+            <label name="qid" value="0">问题0</label>
+            <div class="form-group">
+                <label for="qabstract">题目描述</label>
+                <input type="text" class="form-control" name="qabstract">
+            </div>
+            <div class="form-group">
+                <label for="qtype">题目类型</label>
+                <select class="form-control" name="qtype">
+                    <option value="0" selected>请选择</option>
+                    <option value="1">单选/2个选项</option>
+                    <option value="2">单选/3个选项</option>
+                    <option value="3">单选/4个选项</option>
+                    <option value="4">多选/2个选项</option>
+                    <option value="5">多选/3个选项</option>
+                    <option value="6">多选/4个选项</option>
+                    <option value="7">文本填写</option>
+                    <option value="8">数字填写</option>
+                    <option value="9">评分</option>
+                </select>
+            </div>
+            <div class="form-group" style="display: none;">
+                <label>选项1</label>
+                <input type="text" class="form-control" name="op1">
+            </div>
+            <div class="form-group" style="display: none;">
+                <label>选项2</label>
+                <input type="text" class="form-control" name="op2">
+            </div>
+            <div class="form-group" style="display: none;">
+                <label>选项3</label>
+                <input type="text" class="form-control" name="op3">
+            </div>
+            <div class="form-group" style="display: none;">
+                <label>选项4</label>
+                <input type="text" class="form-control" name="op4">
+            </div>
+            <a class="btn btn-warning" name="remove" style="margin-top: 15px">删除该问题</a>
+        </div>
+        <div style="text-align:center">
+            <a class="btn btn-primary" id="addquestion" style="margin-top: 15px">添加新的题目</a>
+            <a class="btn btn-success" id="submit" style="margin-top: 15px">提交问卷</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    var index = 0;
+    $(function () {
+        index++;
+        var $template = $("#questionTemplate"),
+            $clone = $template
+                .clone()
+                .show()
+                .removeAttr('id')
+                .insertBefore($template);
+        $clone.find('[name="qid"]')
+            .text("问题" + index)
+            .attr('value', index)
+            .end();
+    });
+    $(document).on("change", "select.form-control", function () {
+        var op = $(this).val();
+        var $op1 = $(this).parent().next();
+        var $op2 = $op1.next();
+        var $op3 = $op2.next();
+        var $op4 = $op3.next();
+        debugger;
+        if (op == 1 || op == 4) {
+            $op1.show();
+            $op2.show();
+            $op3.hide();
+            $op4.hide();
+        }
+        else if (op == 2 || op == 5) {
+            $op1.show();
+            $op2.show();
+            $op3.show();
+            $op4.hide();
+        }
+        else if (op == 3 || op == 6) {
+            $op1.show();
+            $op2.show();
+            $op3.show();
+            $op4.show();
+        }
+        else {
+            $op1.hide();
+            $op2.hide();
+            $op3.hide();
+            $op4.hide();
+        }
+    });
+    $(document).on("click", "a.btn-warning", function () {
+        var target = $(this).parent();
+            target.remove();
+    });
+    $(document).ready(function () {
+        $("#addquestion").click(function () {
+            index++;
+            var $template = $("#questionTemplate"),
+                $clone = $template
+                    .clone()
+                    .show()
+                    .removeAttr('id')
+                    .insertBefore($template);
+            $clone.find('[name="qid"]')
+                .text("问题" + index)
+                .attr('value', index)
+                .end();
+        });
+    });
+</script>
+<% include partials/foot %>

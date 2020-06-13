@@ -1,0 +1,32 @@
+<% include partials/head %>
+<div class="col-12">
+  <div class="blur" style="
+    float: left;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    -webkit-filter: blur(4px);
+    -moz-filter: blur(4px);
+    -o-filter: blur(4px);
+    -ms-filter: blur(4px);
+    filter: blur(4px);
+  ">
+  <div class="col-12" style="position: relative; top: 15px; height: 100%; width: 100%; background-image: url(/js/img/index-back.jpg);">
+    <!-- <div class="jumbotron" style=" "> -->
+      
+    <div class="col-12" style="height: 1200px"> </div>
+  </div>
+</div>
+<div class="col-12" style="position: absolute; padding: 0; right: 0">
+    <div class="col-12" style="height: 400px"> </div>
+    <center><p style="font-family: AvenirNext-Regular;font-size: 100px; color: #FFFFFF;">Questionaire</p></center>
+    <center><p class="text-center" style="font-family: AvenirNext-Regular;font-size: 25px; color: #FFFFFF;top: 80px">Yet Another Questionaire System</p></center>
+    <!-- <% if (!locals.user) { %>
+    <% } %>  -->
+    <% if (!locals.user) { %>
+      <center><a class="btn btn-primary btn-lg"  href="/login" style="position: relative;top: 30px">登陆后查看更多信息</a></center>
+    <% } %>
+</div>
+  
+<% include partials/foot %>

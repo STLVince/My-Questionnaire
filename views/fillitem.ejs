@@ -1,0 +1,130 @@
+<% include partials/head %>
+<div class="col-xs-12" style="height:50px;"></div>
+<h1 class="text-center">问卷调查</h1>
+<div>
+    <div class="container" style="margin-top: 50px;margin-bottom: 40px;">
+        <div class="col-12" style="margin: auto">
+            <label>填写问卷的页面</label>
+            <div class="form-group" id="radioTemplate" style="display: none;">
+                <label name="qname">单选题</label>
+                <div class="icheck-turquoise">
+                    <input type="radio" id="RadioId1" name="q0" value="1"/>
+                    <label for="RadioId1">Option 1</label>
+                </div>
+                <div class="icheck-emerland">
+                    <input type="radio" id="RadioId2" name="q0" value="2"/>
+                    <label for="RadioId2">Option 2</label>
+                </div>
+                <div class="icheck-peterriver">
+                    <input type="radio" id="RadioId3" name="q0" value="3"/>
+                    <label for="RadioId3">Option 3</label>
+                </div>
+                <div class="icheck-amethyst">
+                    <input type="radio" id="RadioId4" name="q0" value="4"/>
+                    <label for="RadioId4">Option 4</label>
+                </div>
+            </div>
+            <div class="form-group" id="checkboxTemplate" style="display: none;">
+                <label name="qname">多选题</label>
+                <div class="icheck-wisteria">
+                    <input type="checkbox" id="CheckboxId1" value="1"/>
+                    <label for="CheckboxId1">Options 1</label>
+                </div>
+                <div class="icheck-midnightblue">
+                    <input type="checkbox" id="CheckboxId2" value="2"/>
+                    <label for="CheckboxId2">Options 2</label>
+                </div>
+                <div class="icheck-sunflower">
+                    <input type="checkbox" id="CheckboxId3" value="3"/>
+                    <label for="CheckboxId3">Options 3</label>
+                </div>
+                <div class="icheck-carrot">
+                    <input type="checkbox" id="CheckboxId4" value="4"/>
+                    <label for="CheckboxId4">Options 4</label>
+                </div>
+            </div>
+            <div class="form-group" id="textTemplate" style="display: none;">
+                <label name="qname">文本题</label>
+                <textarea class="form-control" rows="5" name="q0"></textarea>
+            </div>
+            <div class="form-group" id="numTemplate" style="display: none;">
+                <label name="qname">数字题</label>
+                <input type="number" class="form-control" name="q0">
+            </div>
+            <div class="form-group" id="scoreTemplate" style="display: none;">
+                <label name="qname">评分题</label>
+                <div class="icheck-pumpkin icheck-inline">
+                    <input type="radio" id="SId1" name="sq0" value="1"/>
+                    <label for="SId1">1</label>
+                </div>
+                <div class="icheck-orange icheck-inline">
+                    <input type="radio" id="SId2" name="sq0" value="2"/>
+                    <label for="SId2">2</label>
+                </div>
+                <div class="icheck-sunflower icheck-inline">
+                    <input type="radio" id="SId3" name="sq0" value="3"/>
+                    <label for="SId3">3</label>
+                </div>
+                <div class="icheck-greensea icheck-inline">
+                    <input type="radio" id="SId4" name="sq0" value="4"/>
+                    <label for="SId4">4</label>
+                </div>
+                <div class="icheck-peterriver icheck-inline">
+                    <input type="radio" id="SId5" name="sq0" value="5"/>
+                    <label for="SId5">5</label>
+                </div>
+                <div class="icheck-midnightblue icheck-inline">
+                    <input type="radio" id="SId6" name="sq0" value="6"/>
+                    <label for="SId6">6</label>
+                </div>
+                <div class="icheck-amethyst icheck-inline">
+                    <input type="radio" id="SId7" name="sq0" value="7"/>
+                    <label for="SId7">7</label>
+                </div>
+            </div>
+            <div style="text-align:center">
+                <a class="btn btn-success" id="submit" style="margin-top: 15px">提交问卷</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var index = 0;
+    $(function () {
+        index++;
+        var $template = $("#radioTemplate"),
+            $clone = $template
+                .clone()
+                .show()
+                .removeAttr('id')
+                .insertBefore($template);
+        var $op1 = $clone.children(".icheck-turquoise");
+        var $op2 = $clone.children(".icheck-emerland");
+        var $op3 = $clone.children(".icheck-peterriver");
+        var $op4 = $clone.children(".icheck-amethyst");
+        $op1.find("input").attr("id", "q" + index + "Id1").attr("name", "q" + index);
+        $op1.find("label").attr("for", "q" + index + "Id1");
+        $op2.find("input").attr("id", "q" + index + "Id2").attr("name", "q" + index);
+        $op2.find("label").attr("for", "q" + index + "Id2");
+        $op3.find("input").attr("id", "q" + index + "Id3").attr("name", "q" + index);
+        $op3.find("label").attr("for", "q" + index + "Id3");
+        $op4.find("input").attr("id", "q" + index + "Id4").attr("name", "q" + index);
+        $op4.find("label").attr("for", "q" + index + "Id4");
+        index++;
+        var $clone2 = $clone.clone().insertBefore($template);
+        $op1 = $clone2.children(".icheck-turquoise");
+        $op2 = $clone2.children(".icheck-emerland");
+        $op3 = $clone2.children(".icheck-peterriver");
+        $op4 = $clone2.children(".icheck-amethyst");
+        $op1.find("input").attr("id", "q" + index + "Id1").attr("name", "q" + index);
+        $op1.find("label").attr("for", "q" + index + "Id1");
+        $op2.find("input").attr("id", "q" + index + "Id2").attr("name", "q" + index);
+        $op2.find("label").attr("for", "q" + index + "Id2");
+        $op3.find("input").attr("id", "q" + index + "Id3").attr("name", "q" + index);
+        $op3.find("label").attr("for", "q" + index + "Id3");
+        $op4.find("input").attr("id", "q" + index + "Id4").attr("name", "q" + index);
+        $op4.find("label").attr("for", "q" + index + "Id4");
+    });
+</script>
+<% include partials/foot %>
