@@ -4,6 +4,7 @@
 <div>
     <div class="container" style="margin-top: 50px;margin-bottom: 40px;">
         <div class="col-12" style="margin: auto">
+            <form id="form" action="/fillitem/sub" method="post">
             <label>填写问卷的页面</label>
             <div class="form-group" id="radioTemplate" style="display: none;">
                 <label name="qname">单选题</label>
@@ -27,29 +28,29 @@
             <div class="form-group" id="checkboxTemplate" style="display: none;">
                 <label name="qname">多选题</label>
                 <div class="icheck-wisteria">
-                    <input type="checkbox" id="CheckboxId1" value="1"/>
+                    <input type="checkbox" id="CheckboxId1" name="mq0" value="1"/>
                     <label for="CheckboxId1">Options 1</label>
                 </div>
                 <div class="icheck-midnightblue">
-                    <input type="checkbox" id="CheckboxId2" value="2"/>
+                    <input type="checkbox" id="CheckboxId2" name="mq0" value="2"/>
                     <label for="CheckboxId2">Options 2</label>
                 </div>
                 <div class="icheck-sunflower">
-                    <input type="checkbox" id="CheckboxId3" value="3"/>
+                    <input type="checkbox" id="CheckboxId3" name="mq0" value="3"/>
                     <label for="CheckboxId3">Options 3</label>
                 </div>
                 <div class="icheck-carrot">
-                    <input type="checkbox" id="CheckboxId4" value="4"/>
+                    <input type="checkbox" id="CheckboxId4" name="mq0" value="4"/>
                     <label for="CheckboxId4">Options 4</label>
                 </div>
             </div>
             <div class="form-group" id="textTemplate" style="display: none;">
                 <label name="qname">文本题</label>
-                <textarea class="form-control" rows="5" name="q0"></textarea>
+                <textarea class="form-control" rows="5" name="tq0"></textarea>
             </div>
             <div class="form-group" id="numTemplate" style="display: none;">
                 <label name="qname">数字题</label>
-                <input type="number" class="form-control" name="q0">
+                <input type="number" class="form-control" name="nq0">
             </div>
             <div class="form-group" id="scoreTemplate" style="display: none;">
                 <label name="qname">评分题</label>
@@ -83,8 +84,9 @@
                 </div>
             </div>
             <div style="text-align:center">
-                <a class="btn btn-success" id="submit" style="margin-top: 15px">提交问卷</a>
+                <a class="btn btn-success" id="sub" style="margin-top: 15px" onclick="subQuestionaire()">提交问卷</a>
             </div>
+            </form>
         </div>
     </div>
 </div>
@@ -126,5 +128,9 @@
         $op4.find("input").attr("id", "q" + index + "Id4").attr("name", "q" + index);
         $op4.find("label").attr("for", "q" + index + "Id4");
     });
+    function subQuestionaire() {
+        $("#form").submit();
+            alert("新建成功!");
+    }
 </script>
 <% include partials/foot %>

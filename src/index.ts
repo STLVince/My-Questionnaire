@@ -15,7 +15,6 @@ import { isVip } from './model/vip';
 
 mongoose.connect(uri, { useNewUrlParser: true });
 const mysqlConnection = mysqlConnect;
-mysqlConnection.connect();
 
 mysqlConnection.query('show tables', function(err, rows, fields) {
   if (err) 

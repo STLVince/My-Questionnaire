@@ -5,7 +5,7 @@ import { stringify } from 'querystring';
 const router = express.Router();
 
 const mysqlConnection = mysqlConnect;
-mysqlConnection.connect();
+//mysqlConnection.connect();
 
 let res_data : string[][] = []
 
@@ -19,7 +19,7 @@ mysqlConnection.query('select  * from stock', function(err, rows, fields) {
  }
 });
 
-mysqlConnection.end();
+//mysqlConnection.end();
 
 router.get('/', (req, res, next) => {
   res.render('stockquery.ejs', { data:  res_data

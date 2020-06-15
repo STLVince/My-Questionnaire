@@ -5,86 +5,85 @@
     <p class="text-faded text-center mb-8" style="font-family: AvenirNext-Bold;font-size: 30px; ">在线设计问卷，让您的工作事半功倍</p>
     <div class="container" style="margin-top: 50px;margin-bottom: 40px;">
         <div class="col-12" style="margin: auto">
-            <form>
+            <form id="form" action="/additem/add" method="post">
                 <div class="form-group">
                     <label for="formname">问卷名称</label>
-                    <input type="text" class="form-control" id="formname" placeholder="问卷名称">
+                    <input type="text" class="form-control" name="formname" placeholder="问卷名称">
                 </div>
                 <div class="form-group">
                     <label for="formabstract">问卷简介</label>
-                    <input type="text" class="form-control" id="formabstract" placeholder="问卷简介">
+                    <input type="text" class="form-control" name="formabstract" placeholder="问卷简介">
                 </div>
                 <div class="form-group">
                     <label for="formtime">问卷时间</label>
                     <div class="input-group" id="formtime">
-                        <input type="text" class="input-sm form-control" name="start" placeholder="YYYY-MM-DD" />
+                        <input type="text" class="input-sm form-control" name="starttime" placeholder="2020-7-1" />
                         <span class="input-group-addon">TO</span>
-                        <input type="text" class="input-sm form-control" name="end" placeholder="YYYY-MM-DD" />
+                        <input type="text" class="input-sm form-control" name="endtime" placeholder="2020-7-30" />
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="formaccesstype">填写方式</label>
-                    <select class="custom-select" multiple id="formaccesstype">
-                        <option value="0">仅限注册用户</option>
-                        <option value="1">无需注册，可填写 n 次</option>
-                        <option value="2">无需注册，每天可填写 n 次</option>
+                    <select class="custom-select" multiple name="formaccesstype">
+                        <option value="0" selected>请选择</option>
+                        <option value="1">仅限注册用户</option>
+                        <option value="2">无需注册，可填写 n 次</option>
+                        <option value="3">无需注册，每天可填写 n 次</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="formaccessnum">填写次数</label>
-                    <input type="text" class="form-control" id="formaccessnum" placeholder="10">
+                    <input type="text" class="form-control" name="formaccessnum" placeholder="10">
+                </div>
+                <div class="form-group" id="questionTemplate" style="display: none;">
+                    <label name="qid">问题0</label>
+                    <div class="form-group">
+                        <label for="qabstract">题目描述</label>
+                        <input type="text" class="form-control" id="qabstract">
+                    </div>
+                    <div class="form-group">
+                        <label for="qtype">题目类型</label>
+                        <select class="form-control" id="qtype">
+                            <option value="0" selected>请选择</option>
+                            <option value="1">单选/2个选项</option>
+                            <option value="2">单选/3个选项</option>
+                            <option value="3">单选/4个选项</option>
+                            <option value="4">多选/2个选项</option>
+                            <option value="5">多选/3个选项</option>
+                            <option value="6">多选/4个选项</option>
+                            <option value="7">文本填写</option>
+                            <option value="8">数字填写</option>
+                            <option value="9">评分</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="display: none;">
+                        <label>选项1</label>
+                        <input type="text" class="form-control" id="op1">
+                    </div>
+                    <div class="form-group" style="display: none;">
+                        <label>选项2</label>
+                        <input type="text" class="form-control" id="op2">
+                    </div>
+                    <div class="form-group" style="display: none;">
+                        <label>选项3</label>
+                        <input type="text" class="form-control" id="op3">
+                    </div>
+                    <div class="form-group" style="display: none;">
+                        <label>选项4</label>
+                        <input type="text" class="form-control" id="op4">
+                    </div>
+                    <a class="btn btn-warning" name="remove" style="margin-top: 15px">删除该问题</a>
+                </div>
+                <div style="text-align:center">
+                    <a class="btn btn-primary" id="addquestion" style="margin-top: 15px">添加新的题目</a>
+                    <a class="btn btn-success" id="sub" style="margin-top: 15px"
+                        onclick="return newQuestionaire()">提交问卷</a>
                 </div>
             </form>
         </div>
     </div>
 </div>
-<div class="container" style="margin-top: 50px;margin-bottom: 40px;">
-    <div class="col-12" style="margin: auto">
-        <div class="form-group" id="questionTemplate" style="display: none;">
-            <label name="qid" value="0">问题0</label>
-            <div class="form-group">
-                <label for="qabstract">题目描述</label>
-                <input type="text" class="form-control" name="qabstract">
-            </div>
-            <div class="form-group">
-                <label for="qtype">题目类型</label>
-                <select class="form-control" name="qtype">
-                    <option value="0" selected>请选择</option>
-                    <option value="1">单选/2个选项</option>
-                    <option value="2">单选/3个选项</option>
-                    <option value="3">单选/4个选项</option>
-                    <option value="4">多选/2个选项</option>
-                    <option value="5">多选/3个选项</option>
-                    <option value="6">多选/4个选项</option>
-                    <option value="7">文本填写</option>
-                    <option value="8">数字填写</option>
-                    <option value="9">评分</option>
-                </select>
-            </div>
-            <div class="form-group" style="display: none;">
-                <label>选项1</label>
-                <input type="text" class="form-control" name="op1">
-            </div>
-            <div class="form-group" style="display: none;">
-                <label>选项2</label>
-                <input type="text" class="form-control" name="op2">
-            </div>
-            <div class="form-group" style="display: none;">
-                <label>选项3</label>
-                <input type="text" class="form-control" name="op3">
-            </div>
-            <div class="form-group" style="display: none;">
-                <label>选项4</label>
-                <input type="text" class="form-control" name="op4">
-            </div>
-            <a class="btn btn-warning" name="remove" style="margin-top: 15px">删除该问题</a>
-        </div>
-        <div style="text-align:center">
-            <a class="btn btn-primary" id="addquestion" style="margin-top: 15px">添加新的题目</a>
-            <a class="btn btn-success" id="submit" style="margin-top: 15px">提交问卷</a>
-        </div>
-    </div>
-</div>
+
 
 <script>
     var index = 0;
@@ -98,7 +97,30 @@
                 .insertBefore($template);
         $clone.find('[name="qid"]')
             .text("问题" + index)
-            .attr('value', index)
+            .end();
+        $clone.find('[id="qabstract"]')
+            .removeAttr('id')
+            .attr('name', 'qabstract')
+            .end();
+        $clone.find('[id="qtype"]')
+            .removeAttr('id')
+            .attr('name', 'qtype')
+            .end();
+        $clone.find('[id="op1"]')
+            .removeAttr('id')
+            .attr('name', 'op1')
+            .end();
+        $clone.find('[id="op2"]')
+            .removeAttr('id')
+            .attr('name', 'op2')
+            .end();
+        $clone.find('[id="op3"]')
+            .removeAttr('id')
+            .attr('name', 'op3')
+            .end();
+        $clone.find('[id="op4"]')
+            .removeAttr('id')
+            .attr('name', 'op4')
             .end();
     });
     $(document).on("change", "select.form-control", function () {
@@ -107,7 +129,6 @@
         var $op2 = $op1.next();
         var $op3 = $op2.next();
         var $op4 = $op3.next();
-        debugger;
         if (op == 1 || op == 4) {
             $op1.show();
             $op2.show();
@@ -135,7 +156,7 @@
     });
     $(document).on("click", "a.btn-warning", function () {
         var target = $(this).parent();
-            target.remove();
+        target.remove();
     });
     $(document).ready(function () {
         $("#addquestion").click(function () {
@@ -148,9 +169,48 @@
                     .insertBefore($template);
             $clone.find('[name="qid"]')
                 .text("问题" + index)
-                .attr('value', index)
+                .end();
+            $clone.find('[id="qabstract"]')
+                .removeAttr('id')
+                .attr('name', 'qabstract')
+                .end();
+            $clone.find('[id="qtype"]')
+                .removeAttr('id')
+                .attr('name', 'qtype')
+                .end();
+            $clone.find('[id="op1"]')
+                .removeAttr('id')
+                .attr('name', 'op1')
+                .end();
+            $clone.find('[id="op2"]')
+                .removeAttr('id')
+                .attr('name', 'op2')
+                .end();
+            $clone.find('[id="op3"]')
+                .removeAttr('id')
+                .attr('name', 'op3')
+                .end();
+            $clone.find('[id="op4"]')
+                .removeAttr('id')
+                .attr('name', 'op4')
                 .end();
         });
     });
+    function newQuestionaire() {
+        var isVaild = ($("input[name]:visible").filter(function () {
+            return $.trim($(this).val()).length == 0
+        }).length == 0 &&
+            $("select[name]:visible").filter(function () {
+                return $.trim($(this).val()) == "0"
+            }).length == 0);
+        if (isVaild) {
+            $("#form").submit();
+            alert("新建成功!");
+            return true;
+        } else {
+            alert("请填写完整");
+            return false;
+        }
+    }
 </script>
 <% include partials/foot %>
