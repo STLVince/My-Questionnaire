@@ -24,9 +24,15 @@
   var dataSet = [
     <%- data %>
   ];
+  var isValidMap = new Map();
   $(document).ready(function () {
     $('#stock-table').DataTable({
-      data: dataSet.map(x => { x.push('<a href="candlestickchart?code=' + x[0] + '&title=' + x[1] + '" class="btn btn-primary">查看/编辑</a> <a href="fillitem?code=' + x[0] + '" class="btn btn-primary">填写</a>'); return x; }),
+      data: dataSet.map(x => { 
+        var isValid = x.pop();
+        isValidMap.set(x[0], isValid);
+        x.push('<a href="candlestickchart?code=' + x[0] + '&title=' + x[1] + '" class="btn btn-info">编辑</a> <a href="fillitem?code=' + x[0] + '" value="'+ x[0] +'" class="btn btn-primary">填写</a>'); 
+        return x; 
+      }),
       columns: [
         { title: "问卷编号" },
         { title: "问卷名称" },
@@ -36,5 +42,15 @@
       ]
     });
   });
+  $(document).on("focus", "a.btn-primary", function () {
+        var id = $(this).attr("value");
+        var isTrue = isValidMap.get(id);
+        if (isTrue == "true") {
+          $(this).removeAttr("href");
+          $(this).addClass("btn-secondary");
+          $(this).removeClass("btn-primary");
+          alert("此问卷已过期");
+        }
+    });
 </script>
 <% include partials/foot %>

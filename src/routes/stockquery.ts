@@ -9,7 +9,7 @@ const mysqlConnection = mysqlConnect;
 
 let res_data : string[][] = []
 
-mysqlConnection.query('select  * from stock', function(err, rows, fields) {
+/*mysqlConnection.query('select  * from stock', function(err, rows, fields) {
   // if (err) throw err;
   for (let i in rows) {
     let item = [];
@@ -17,7 +17,7 @@ mysqlConnection.query('select  * from stock', function(err, rows, fields) {
      res_data.push(item);
     //  console.log(item);
  }
-});
+});*/
 
 //mysqlConnection.end();
 

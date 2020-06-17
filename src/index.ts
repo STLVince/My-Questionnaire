@@ -1,7 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
 import { uri } from './config/database';
-import mysqlConnect from './config/mysql';
 import path from 'path';
 import bodyParser = require('body-parser');
 import cookieParser = require('cookie-parser');
@@ -14,17 +13,6 @@ import * as http from "http";
 import { isVip } from './model/vip';
 
 mongoose.connect(uri, { useNewUrlParser: true });
-const mysqlConnection = mysqlConnect;
-
-mysqlConnection.query('show tables', function(err, rows, fields) {
-  if (err) 
-  console.log(err);
-  for (let i in rows) {
-    let item = [];
-    for (let j in rows[i]) item.push(rows[i][j].toString());
-    console.log(item);
- }
-});
 
 const app = express();
 

@@ -7,4 +7,23 @@ const pool = mysql.createPool({
   database: 'my_questionaire'
 });
 
-export default pool;
+let query = function (sql: string, values: any) {
+  return new Promise((resolve, reject) => {
+    pool.getConnection(function (err, connection) {
+      if (err) {
+        reject(err);
+      } else {
+        connection.query(sql, values, (err, rows) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(rows);
+          }
+          connection.release();
+        })
+      }
+    })
+  })
+}
+
+export default query;
