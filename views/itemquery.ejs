@@ -30,7 +30,7 @@
       data: dataSet.map(x => { 
         var isValid = x.pop();
         isValidMap.set(x[0], isValid);
-        x.push('<a href="candlestickchart?code=' + x[0] + '&title=' + x[1] + '" class="btn btn-info">编辑</a> <a href="fillitem?code=' + x[0] + '" value="'+ x[0] +'" class="btn btn-primary">填写</a>'); 
+        x.push('<a href="candlestickchart?code=' + x[0] + '&title=' + x[1] + '" class="btn btn-info">编辑</a> <a href="fillitem?code=' + x[0] + '&title=' + x[1] + '" value="'+ x[0] +'" class="btn btn-primary">填写</a>'); 
         return x; 
       }),
       columns: [
