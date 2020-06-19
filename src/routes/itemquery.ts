@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get('/', async function (req, res, next) {
   let res_data: string[][] = [];
-  let rows: any = await mysqlQuery('select id,title,createtime,endtime from collection', null);
+  let rows: any = await mysqlQuery('select id,title,createtime,endtime from collection where username=?', req.user.local.email);
   for (let i in rows) {
     let item = [];
     item.push(rows[i].id.toString());

@@ -57,10 +57,6 @@ function pay(show) {
     }
 }
 
-function charge() {
-	window.location.href = "/vip/charge";
-}
-
 function pwdVerified() {
 	if($("input[name='password']").val().length < 8) {
 		alertMessage("密码小于8位，请修改");

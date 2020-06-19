@@ -2,10 +2,10 @@
 
 <div class="col-12" style="top: 15px; ">
   <div class="jumbotron">
-    <h1 class="display-3 text-center" style="font-family: AvenirNext-Bold; "><strong>问卷集合</strong></h1>
+    <h1 class="display-3 text-center" style="font-family: AvenirNext-Bold; "><strong>控制台</strong></h1>
     <div></div>
     <div>
-      <p class="text-faded text-center mb-8" style="font-family: AvenirNext-Bold;font-size: 30px; ">在线设计问卷，让您的工作事半功倍</p>
+      <p class="text-faded text-center mb-8" style="font-family: AvenirNext-Bold;font-size: 30px; ">在这里添加或修改属于您的问卷</p>
       <div style="text-align:center">
         <a class="btn btn-secondary" href="/additem" style="margin-top: 15px">添加问卷</a>
       </div>
@@ -15,7 +15,7 @@
 
 <div class="container" style="margin-top: 50px;margin-bottom: 40px;">
   <div class="col-12" style="margin: auto">
-    <table id="stock-table" class="display" style="width:100%; ">
+    <table id="item-table" class="display" style="width:100%; ">
     </table>
 
   </div>
@@ -26,11 +26,11 @@
   ];
   var isValidMap = new Map();
   $(document).ready(function () {
-    $('#stock-table').DataTable({
+    $('#item-table').DataTable({
       data: dataSet.map(x => { 
         var isValid = x.pop();
         isValidMap.set(x[0], isValid);
-        x.push('<a href="candlestickchart?code=' + x[0] + '&title=' + x[1] + '" class="btn btn-info">编辑</a> <a href="fillitem?code=' + x[0] + '&title=' + x[1] + '" value="'+ x[0] +'" class="btn btn-primary">填写</a>'); 
+        x.push('<a href="edititem?code=' + x[0] + '&title=' + x[1] + '" class="btn btn-warning">编辑</a> <a href="fillitem?code=' + x[0] + '&title=' + x[1] + '" value="'+ x[0] +'" class="btn btn-primary">填写</a> <a href="statistics?code=' + x[0] + '&title=' + x[1] + '" class="btn btn-info">数据统计</a>'); 
         return x; 
       }),
       columns: [

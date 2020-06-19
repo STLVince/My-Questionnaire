@@ -131,14 +131,14 @@
         if (op == 1 || op == 4) {
             $op1.show();
             $op2.show();
-            $op3.hide();
-            $op4.hide();
+            $op3.hide().children("input").val("");
+            $op4.hide().children("input").val("");
         }
         else if (op == 2 || op == 5) {
             $op1.show();
             $op2.show();
             $op3.show();
-            $op4.hide();
+            $op4.hide().children("input").val("");
         }
         else if (op == 3 || op == 6) {
             $op1.show();
@@ -147,10 +147,10 @@
             $op4.show();
         }
         else {
-            $op1.hide();
-            $op2.hide();
-            $op3.hide();
-            $op4.hide();
+            $op1.hide().children("input").val("");
+            $op2.hide().children("input").val("");
+            $op3.hide().children("input").val("");
+            $op4.hide().children("input").val("");
         }
     });
     $(document).on("click", "a.btn-warning", function () {
