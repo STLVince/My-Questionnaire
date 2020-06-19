@@ -83,7 +83,8 @@
                     </div>
                 </div>
                 <div style="text-align:center">
-                    <a class="btn btn-success" id="sub" style="margin-top: 15px" onclick="subQuestionaire()">提交问卷</a>
+                    <a class="btn btn-success" id="sub" style="margin-top: 15px"
+                        onclick="return subQuestionaire()">提交问卷</a>
                 </div>
             </form>
         </div>
@@ -116,10 +117,10 @@
         $op3.find("label").attr("for", "q" + qid + "Id3").text(qop3);
         $op4.find("input").attr("id", "q" + qid + "Id4").attr("name", "q" + qid);
         $op4.find("label").attr("for", "q" + qid + "Id4").text(qop4);
-        if(qop1 == "") $op1.hide();
-        if(qop2 == "") $op2.hide();
-        if(qop3 == "") $op3.hide();
-        if(qop4 == "") $op4.hide();
+        if (qop1 == "") $op1.hide();
+        if (qop2 == "") $op2.hide();
+        if (qop3 == "") $op3.hide();
+        if (qop4 == "") $op4.hide();
     }
     function newCheckbox(qid, display, qabstract, qop1, qop2, qop3, qop4) {
         var $end = $("#radioTemplate");
@@ -144,10 +145,10 @@
         $op3.find("label").attr("for", "q" + qid + "Id3").text(qop3);
         $op4.find("input").attr("id", "q" + qid + "Id4").attr("name", "q" + qid);
         $op4.find("label").attr("for", "q" + qid + "Id4").text(qop4);
-        if(qop1 == "") $op1.hide();
-        if(qop2 == "") $op2.hide();
-        if(qop3 == "") $op3.hide();
-        if(qop4 == "") $op4.hide();
+        if (qop1 == "") $op1.hide();
+        if (qop2 == "") $op2.hide();
+        if (qop3 == "") $op3.hide();
+        if (qop4 == "") $op4.hide();
     }
     function newText(qid, display, qabstract) {
         var $end = $("#radioTemplate");
@@ -210,10 +211,10 @@
     }
     $(function () {
         for (let i in dataSet) {
-            switch(dataSet[i][3]) {
+            switch (dataSet[i][3]) {
                 case "1":
                 case "2":
-                case "3": 
+                case "3":
                     newRadio(dataSet[i][0], dataSet[i][1], dataSet[i][2], dataSet[i][4], dataSet[i][5], dataSet[i][6], dataSet[i][7]);
                     break;
                 case "4":
@@ -230,14 +231,46 @@
                 case "9":
                     newScore(dataSet[i][0], dataSet[i][1], dataSet[i][2]);
                     break;
-                default: 
+                default:
                     break;
             }
         }
     });
     function subQuestionaire() {
-        $("#form").submit();
-        alert("新建成功!");
+        var isVaild = ($("input[name][type='number']:visible").filter(function () {
+            return $.trim($(this).val()).length == 0
+        }).length == 0 &&
+            $("textarea[name]:visible").filter(function () {
+                return $.trim($(this).val()) == 0
+            }).length == 0);
+        if (!isVaild) {
+            alert("请填写完整");
+            return false;
+        }
+        var a = new Array();
+        $(":radio:visible").each(function () {
+            a.push($(this).attr("name"));
+        });
+        $(":checkbox:visible").each(function () {
+            a.push($(this).attr("name"));
+        });
+        a.sort();
+        $.unique(a);
+        var flag = true;
+        $.each(a, function (i, val) {
+            if ($("input[name='" + val + "']:checked").val() == null ? true : false) {
+                flag = false;
+                return false;
+            }
+        });
+        if (flag) {
+            $("#form").submit();
+            alert("新建成功!");
+            return true;
+        } else {
+            alert("请填写完整");
+            return false;
+        }
     }
 </script>
 <% include partials/foot %>
