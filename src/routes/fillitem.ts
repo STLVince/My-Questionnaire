@@ -1,6 +1,5 @@
 import express from 'express';
-import mysqlQuery from '../config/mysql'
-import e from 'express';
+import mysqlQuery from '../config/mysql';
 const ip = require('ip');
 const router = express.Router();
 
