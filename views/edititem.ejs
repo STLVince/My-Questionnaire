@@ -34,8 +34,8 @@
                     </div>
                 </div>
                 <div class="form-group shadow-none p-3 mb-5 bg-light rounded" id="questionTemplate"
-                    style="display: none;">
-                    <label name="qid" value="0">问题0</label>
+                    style="display: none;" qcas="0">
+                    <label name="qid">问题0</label>
                     <div class="form-group">
                         <label for="qabstract">题目描述</label>
                         <input type="text" class="form-control" id="qabstract">
@@ -71,6 +71,30 @@
                         <label>选项4</label>
                         <input type="text" class="form-control" id="op4">
                     </div>
+                    <div class="form-group">
+                        <label for="qcas">是否级联</label>
+                        <select class="form-control" id="qcas">
+                            <option value="0" selected>请选择</option>
+                            <option value="1">否</option>
+                            <option value="2">是</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="display: none;">
+                        <label for="qcasnum">级联的上级题号</label>
+                        <select class="form-control" id="qcasnum">
+                            <option value="0" selected>请选择</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="display: none;">
+                        <label for="qcasop">级联的对应选项</label>
+                        <select class="form-control" id="qcasop">
+                            <option value="0" selected>请选择</option>
+                            <option value="1" disabled>选项1</option>
+                            <option value="2" disabled>选项2</option>
+                            <option value="3" disabled>选项3</option>
+                            <option value="4" disabled>选项4</option>
+                        </select>
+                    </div>
                 </div>
                 <div style="text-align:center">
                     <a class="btn btn-success" id="sub" style="margin-top: 15px"
@@ -93,11 +117,11 @@
             $clone = $template
                 .clone()
                 .show()
-                .removeAttr('id')
+                .attr('id', 'q' + index)
+                .attr('value', index)
                 .insertBefore($template);
         $clone.find('[name="qid"]')
             .text("问题" + index)
-            .attr('value', index)
             .end();
         $clone.find('[id="qabstract"]')
             .removeAttr('id')
@@ -108,6 +132,18 @@
             .removeAttr('id')
             .attr('name', 'qtype')
             .val(type)
+            .end();
+        $clone.find('[id="qcas"]')
+            .removeAttr('id')
+            .attr('name', 'qcas')
+            .end();
+        $clone.find('[id="qcasnum"]')
+            .removeAttr('id')
+            .attr('name', 'qcasnum')
+            .end();
+        $clone.find('[id="qcasop"]')
+            .removeAttr('id')
+            .attr('name', 'qcasop')
             .end();
         $clone.find('[id="op1"]')
             .removeAttr('id')
@@ -137,6 +173,8 @@
             $clone.find('[name="op3"]').parent().show();
         if (op4 != "")
             $clone.find('[name="op4"]').parent().show();
+        if(type == 1 || type == 2 || type == 3)
+            $clone.attr("qcas", type);
     }
     $(function () {
         $("[name='formname']").val(title);
@@ -147,9 +185,82 @@
             newQuestion(dataSet[i][0], dataSet[i][1], dataSet[i][2], dataSet[i][3], dataSet[i][4], dataSet[i][5], dataSet[i][6]);
         }
     });
-    $(document).on("change", "select.form-control", function () {
+    $(document).on("change", "select[name='qcas']", function () {
+        var val = $(this).val();
+        var $num = $(this).parent().next();
+        var $op = $num.next();
+        var me = $(this).parent().parent().attr("value");
+        if (val == 2) {
+            $num.show();
+            $op.show();
+            $num.find("option[value!='0']").each(function(i, n) {
+                var obj = $(n);
+                obj.remove();
+            });
+            var $cas0 = $num.find("option[value='0']");
+            $("[qcas]").each(function(){
+                var val = $(this).attr("qcas");
+                if(val != 0 && $(this).attr("value") < me) {
+                    var id = $(this).attr("value");
+                    var $clone = $cas0.clone()
+                        .attr("value", id)
+                        .text("问题" + id)
+                        .insertAfter($cas0);
+                    $cas0 = $clone;
+                }
+            });
+            $num.children("select").val("0");
+        }
+        else {
+            $num.hide().children("select").val("0");
+            $num.find("option[value!='0']").each(function(i, n) {
+                var obj = $(n);
+                obj.remove();
+            });
+            $op.hide().children("select").val("0");
+            $op.find("option[value='1']").attr("disabled",true);
+            $op.find("option[value='2']").attr("disabled",true);
+            $op.find("option[value='3']").attr("disabled",true);
+            $op.find("option[value='4']").attr("disabled",true);
+        }
+    });
+    $(document).on("change", "select[name='qcasnum']", function () {
+        var val = $(this).val();
+        var $op = $(this).parent().next();
+        var qtype = $("#q" + val).attr("qcas");
+        if(qtype == 1) {
+            $op.find("option[value='1']").attr("disabled",false);
+            $op.find("option[value='2']").attr("disabled",false);
+            $op.find("option[value='3']").attr("disabled",true);
+            $op.find("option[value='4']").attr("disabled",true);
+        }
+        else if(qtype == 2) {
+            $op.find("option[value='1']").attr("disabled",false);
+            $op.find("option[value='2']").attr("disabled",false);
+            $op.find("option[value='3']").attr("disabled",false);
+            $op.find("option[value='4']").attr("disabled",true);
+        }
+        else if(qtype == 3) {
+            $op.find("option[value='1']").attr("disabled",false);
+            $op.find("option[value='2']").attr("disabled",false);
+            $op.find("option[value='3']").attr("disabled",false);
+            $op.find("option[value='4']").attr("disabled",false);
+        }
+        else {
+            $op.find("option[value='1']").attr("disabled",true);
+            $op.find("option[value='2']").attr("disabled",true);
+            $op.find("option[value='3']").attr("disabled",true);
+            $op.find("option[value='4']").attr("disabled",true);
+        }
+    });
+    $(document).on("change", "select[name='qtype']", function () {
         var op = $(this).val();
         var $op1 = $(this).parent().next();
+        var $question =$(this).parent().parent();
+        if(op == 1 || op == 2 || op == 3)
+            $question.attr("qcas", op);
+        else
+            $question.attr("qcas", "0");
         var $op2 = $op1.next();
         var $op3 = $op2.next();
         var $op4 = $op3.next();

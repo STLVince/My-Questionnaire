@@ -25,7 +25,7 @@ router.get('/', async function (req, res) {
         qnum = Number(ret1[0][j].toString());
     }
     if (accesstype == 2) {
-        let ret2: any = await mysqlQuery('select count(*) from form_answer where username=?;', [author]);
+        let ret2: any = await mysqlQuery('select count(*) from form_answer where username=? and title=?', [author, req.query.title]);
         let saved: number = 0;
         for (let j in ret2[0]) {
             saved = Number(ret2[0][j].toString());
@@ -37,7 +37,7 @@ router.get('/', async function (req, res) {
             limitnum -= saved / qnum;
         }
     } else if (accesstype == 3) {
-        let ret2: any = await mysqlQuery('select count(*) from form_answer where createdate >= date(now()) and createdate < DATE_ADD(date(now()),INTERVAL 1 DAY) and username=?;', [author]);
+        let ret2: any = await mysqlQuery('select count(*) from form_answer where createdate >= date(now()) and createdate < DATE_ADD(date(now()),INTERVAL 1 DAY) and username=? and title=?', [author, req.query.title]);
         let saved: number = 0;
         for (let j in ret2[0]) {
             saved = Number(ret2[0][j].toString());
@@ -72,7 +72,9 @@ router.get('/', async function (req, res) {
 function opParse(type: string, ops: any) {
     if (type == "1" || type == "2" || type == "3") {
         let tmp: string = ops.toString();
-        if (tmp == "1")
+        if (tmp == "0")
+            return 0;
+        else if (tmp == "1")
             return 1;
         else if (tmp == "2")
             return 2;
@@ -85,7 +87,9 @@ function opParse(type: string, ops: any) {
         let res: number = 0;
         for (let i in ops) {
             let tmp: number = 0;
-            if (ops[i] == "1")
+            if(ops[i] == "0")
+                break;
+            else if (ops[i] == "1")
                 tmp = 1;
             else if (ops[i] == "2")
                 tmp = 2;

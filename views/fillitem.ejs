@@ -8,6 +8,10 @@
             <form id="form" action="/fillitem/sub" method="post">
                 <div class="form-group shadow p-3 mb-5 bg-white rounded" id="radioTemplate" style="display: none;">
                     <label name="qname">单选题</label>
+                    <div class="icheck-silver" style="display: none;">
+                        <input type="radio" id="RadioId0" value="0"/>
+                        <label for="RadioId0">Option 0</label>
+                    </div>
                     <div class="icheck-turquoise">
                         <input type="radio" id="RadioId1" value="1" />
                         <label for="RadioId1">Option 1</label>
@@ -27,20 +31,24 @@
                 </div>
                 <div class="form-group shadow p-3 mb-5 bg-white rounded" id="checkboxTemplate" style="display: none;">
                     <label name="qname">多选题</label>
+                    <div class="icheck-silver" style="display: none;">
+                        <input type="checkbox" id="CheckboxId0" value="0"/>
+                        <label for="CheckboxId0">Option 0</label>
+                    </div>
                     <div class="icheck-wisteria">
-                        <input type="checkbox" id="CheckboxId1" value="1" />
+                        <input type="checkbox" id="CheckboxId1" value="1"/>
                         <label for="CheckboxId1">Options 1</label>
                     </div>
                     <div class="icheck-midnightblue">
-                        <input type="checkbox" id="CheckboxId2" value="2" />
+                        <input type="checkbox" id="CheckboxId2" value="2"/>
                         <label for="CheckboxId2">Options 2</label>
                     </div>
                     <div class="icheck-sunflower">
-                        <input type="checkbox" id="CheckboxId3" value="3" />
+                        <input type="checkbox" id="CheckboxId3" value="3"/>
                         <label for="CheckboxId3">Options 3</label>
                     </div>
                     <div class="icheck-carrot">
-                        <input type="checkbox" id="CheckboxId4" value="4" />
+                        <input type="checkbox" id="CheckboxId4" value="4"/>
                         <label for="CheckboxId4">Options 4</label>
                     </div>
                 </div>
@@ -54,6 +62,10 @@
                 </div>
                 <div class="form-group shadow p-3 mb-5 bg-white rounded" id="scoreTemplate" style="display: none;">
                     <label name="qname">评分题</label>
+                    <div class="icheck-silver icheck-inline" style="display: none;">
+                        <input type="radio" id="SId0" value="0"/>
+                        <label for="SId0">0</label>
+                    </div>
                     <div class="icheck-pumpkin icheck-inline">
                         <input type="radio" id="SId1" value="1" />
                         <label for="SId1">1</label>
@@ -106,10 +118,13 @@
                 .removeAttr('id')
                 .insertBefore($template);
         $clone.find("label[name='qname']").text("问题" + qid + ": " + qabstract);
+        var $op0 = $clone.children(".icheck-silver");
         var $op1 = $clone.children(".icheck-turquoise");
         var $op2 = $clone.children(".icheck-emerland");
         var $op3 = $clone.children(".icheck-peterriver");
         var $op4 = $clone.children(".icheck-amethyst");
+        $op0.find("input").attr("id", "q" + qid + "Id0").attr("name", "q" + qid);
+        $op0.find("label").attr("for", "q" + qid + "Id0");
         $op1.find("input").attr("id", "q" + qid + "Id1").attr("name", "q" + qid);
         $op1.find("label").attr("for", "q" + qid + "Id1").text(qop1);
         $op2.find("input").attr("id", "q" + qid + "Id2").attr("name", "q" + qid);
@@ -132,10 +147,13 @@
                 .removeAttr('id')
                 .insertBefore($end);
         $clone.find("label[name='qname']").text("问题" + qid + ": " + qabstract);
+        var $op0 = $clone.children(".icheck-silver");
         var $op1 = $clone.children(".icheck-wisteria");
         var $op2 = $clone.children(".icheck-midnightblue");
         var $op3 = $clone.children(".icheck-sunflower");
         var $op4 = $clone.children(".icheck-carrot");
+        $op0.find("input").attr("id", "q" + qid + "Id0").attr("name", "q" + qid);
+        $op0.find("label").attr("for", "q" + qid + "Id0");
         $op1.find("input").attr("id", "q" + qid + "Id1").attr("name", "q" + qid);
         $op1.find("label").attr("for", "q" + qid + "Id1").text(qop1);
         $op2.find("input").attr("id", "q" + qid + "Id2").attr("name", "q" + qid);
@@ -180,6 +198,7 @@
                 .removeAttr('id')
                 .insertBefore($end);
         $clone.find("label[name='qname']").text("问题" + qid + ": " + qabstract);
+        var $op0 = $clone.children(".icheck-silver");
         var $op1 = $clone.children(".icheck-pumpkin");
         var $op2 = $clone.children(".icheck-orange");
         var $op3 = $clone.children(".icheck-sunflower");
@@ -187,6 +206,8 @@
         var $op5 = $clone.children(".icheck-peterriver");
         var $op6 = $clone.children(".icheck-midnightblue");
         var $op7 = $clone.children(".icheck-amethyst");
+        $op0.find("input").attr("id", "q" + qid + "Id0").attr("name", "q" + qid);
+        $op0.find("label").attr("for", "q" + qid + "Id0");
         $op1.find("input").attr("id", "q" + qid + "Id1").attr("name", "q" + qid);
         $op1.find("label").attr("for", "q" + qid + "Id1");
         $op2.find("input").attr("id", "q" + qid + "Id2").attr("name", "q" + qid);
@@ -262,6 +283,23 @@
                 flag = false;
                 return false;
             }
+        });
+        var b = new Array();
+        $(":radio[name]:hidden").each(function () {
+            b.push($(this).attr("name"));
+        });
+        $(":checkbox[name]:hidden").each(function () {
+            b.push($(this).attr("name"));
+        });
+        b.sort();
+        $.unique(b);
+        var c = new Array();
+        c = b.filter(v => !a.includes(v));
+        $.each(c, function (i, val) {
+            $("input[name='" + val + "']").each(function() {
+                    $(this).prop("checked", false);
+            });
+            $("input[name='" + val + "']:first").prop('checked', true);
         });
         if (flag) {
             $("#form").submit();
