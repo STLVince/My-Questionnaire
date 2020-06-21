@@ -55,8 +55,11 @@ router.get('/', async function (req, res) {
 			case "8":
 				var tmp2: number = 0;
 				for (let j in rows2) {
-					total += Number(rows2[j].num.toString());
-					tmp2++;
+					var tmp4 = Number(rows2[j].num.toString());
+					if(tmp4 != 0) {
+						total += tmp4;
+						tmp2++;
+					}
 				}
 				avg = total / tmp2;
 				item.push(total.toString());

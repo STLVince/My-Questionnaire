@@ -110,7 +110,7 @@
     ];
     var limit = <%- limit %>;
     var limitnum = <%- limitnum %>;
-    function newRadio(qid, qabstract, qop1, qop2, qop3, qop4) {
+    function newRadio(qid, qabstract, qop1, qop2, qop3, qop4, qcas, qcasnum, qcasop) {
         var $template = $("#radioTemplate"),
             $clone = $template
                 .clone()
@@ -137,8 +137,17 @@
         if (qop2 == "") $op2.hide();
         if (qop3 == "") $op3.hide();
         if (qop4 == "") $op4.hide();
+        if(qcas == 1) {
+            $clone.hide();
+            $(document).on("change", "input[name='q" + qcasnum + "']:checked", function () {
+                if($(this).val() == qcasop)
+                    $clone.show();
+                else
+                    $clone.hide();
+            });
+        }
     }
-    function newCheckbox(qid, qabstract, qop1, qop2, qop3, qop4) {
+    function newCheckbox(qid, qabstract, qop1, qop2, qop3, qop4, qcas, qcasnum, qcasop) {
         var $end = $("#radioTemplate");
         var $template = $("#checkboxTemplate"),
             $clone = $template
@@ -166,8 +175,17 @@
         if (qop2 == "") $op2.hide();
         if (qop3 == "") $op3.hide();
         if (qop4 == "") $op4.hide();
+        if(qcas == 1) {
+            $clone.hide();
+            $(document).on("change", "input[name='q" + qcasnum + "']:checked", function () {
+                if($(this).val() == qcasop)
+                    $clone.show();
+                else
+                    $clone.hide();
+            });
+        }
     }
-    function newText(qid, qabstract) {
+    function newText(qid, qabstract, qcas, qcasnum, qcasop) {
         var $end = $("#radioTemplate");
         var $template = $("#textTemplate"),
             $clone = $template
@@ -177,8 +195,17 @@
                 .insertBefore($end);
         $clone.find("label[name='qname']").text("问题" + qid + ": " + qabstract);
         $clone.children("textarea").attr("name", "q" + qid);
+        if(qcas == 1) {
+            $clone.hide();
+            $(document).on("change", "input[name='q" + qcasnum + "']:checked", function () {
+                if($(this).val() == qcasop)
+                    $clone.show();
+                else
+                    $clone.hide();
+            });
+        }
     }
-    function newNum(qid, qabstract) {
+    function newNum(qid, qabstract, qcas, qcasnum, qcasop) {
         var $end = $("#radioTemplate");
         var $template = $("#numTemplate"),
             $clone = $template
@@ -188,8 +215,17 @@
                 .insertBefore($end);
         $clone.find("label[name='qname']").text("问题" + qid + ": " + qabstract);
         $clone.children("input").attr("name", "q" + qid);
+        if(qcas == 1) {
+            $clone.hide();
+            $(document).on("change", "input[name='q" + qcasnum + "']:checked", function () {
+                if($(this).val() == qcasop)
+                    $clone.show();
+                else
+                    $clone.hide();
+            });
+        }
     }
-    function newScore(qid, qabstract) {
+    function newScore(qid, qabstract, qcas, qcasnum, qcasop) {
         var $end = $("#radioTemplate");
         var $template = $("#scoreTemplate"),
             $clone = $template
@@ -222,6 +258,15 @@
         $op6.find("label").attr("for", "q" + qid + "Id6");
         $op7.find("input").attr("id", "q" + qid + "Id7").attr("name", "q" + qid);
         $op7.find("label").attr("for", "q" + qid + "Id7");
+        if(qcas == 1) {
+            $clone.hide();
+            $(document).on("change", "input[name='q" + qcasnum + "']:checked", function () {
+                if($(this).val() == qcasop)
+                    $clone.show();
+                else
+                    $clone.hide();
+            });
+        }
     }
     $(function () {
         if(limit){
@@ -235,21 +280,21 @@
                     case "1":
                     case "2":
                     case "3":
-                        newRadio(dataSet[i][0], dataSet[i][1], dataSet[i][3], dataSet[i][4], dataSet[i][5], dataSet[i][6]);
+                        newRadio(dataSet[i][0], dataSet[i][1], dataSet[i][3], dataSet[i][4], dataSet[i][5], dataSet[i][6], dataSet[i][7], dataSet[i][8], dataSet[i][9]);
                         break;
                     case "4":
                     case "5":
                     case "6":
-                        newCheckbox(dataSet[i][0], dataSet[i][1], dataSet[i][3], dataSet[i][4], dataSet[i][5], dataSet[i][6]);
+                        newCheckbox(dataSet[i][0], dataSet[i][1], dataSet[i][3], dataSet[i][4], dataSet[i][5], dataSet[i][6], dataSet[i][7], dataSet[i][8], dataSet[i][9]);
                         break;
                     case "7":
-                        newText(dataSet[i][0], dataSet[i][1]);
+                        newText(dataSet[i][0], dataSet[i][1], dataSet[i][7], dataSet[i][8], dataSet[i][9]);
                         break;
                     case "8":
-                        newNum(dataSet[i][0], dataSet[i][1]);
+                        newNum(dataSet[i][0], dataSet[i][1], dataSet[i][7], dataSet[i][8], dataSet[i][9]);
                         break;
                     case "9":
-                        newScore(dataSet[i][0], dataSet[i][1]);
+                        newScore(dataSet[i][0], dataSet[i][1], dataSet[i][7], dataSet[i][8], dataSet[i][9]);
                         break;
                     default:
                         break;
@@ -300,6 +345,9 @@
                     $(this).prop("checked", false);
             });
             $("input[name='" + val + "']:first").prop('checked', true);
+        });
+        $("input[name][type='number']:hidden").each(function () {
+            $(this).val("0");
         });
         if (flag) {
             $("#form").submit();
