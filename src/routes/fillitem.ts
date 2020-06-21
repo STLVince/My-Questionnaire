@@ -52,7 +52,7 @@ router.get('/', async function (req, res) {
     let res_data: string[][] = [];
     types = [];
     currentTitle = req.query.title;
-    let rows: any = await mysqlQuery('select qid,display,qabstract,qtype,op1,op2,op3,op4 from form_question join collection on form_question.title=collection.title where collection.id=?', [req.query.code]);
+    let rows: any = await mysqlQuery('select qid,qabstract,qtype,op1,op2,op3,op4 from form_question join collection on form_question.title=collection.title where collection.id=?', [req.query.code]);
     for (let i in rows) {
         let item = [];
         for (let j in rows[i]) item.push(rows[i][j].toString());

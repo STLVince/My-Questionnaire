@@ -98,15 +98,13 @@
     ];
     var limit = <%- limit %>;
     var limitnum = <%- limitnum %>;
-    function newRadio(qid, display, qabstract, qop1, qop2, qop3, qop4) {
+    function newRadio(qid, qabstract, qop1, qop2, qop3, qop4) {
         var $template = $("#radioTemplate"),
             $clone = $template
                 .clone()
                 .show()
                 .removeAttr('id')
                 .insertBefore($template);
-        if (display == 0)
-            $clone.hide();
         $clone.find("label[name='qname']").text("问题" + qid + ": " + qabstract);
         var $op1 = $clone.children(".icheck-turquoise");
         var $op2 = $clone.children(".icheck-emerland");
@@ -125,7 +123,7 @@
         if (qop3 == "") $op3.hide();
         if (qop4 == "") $op4.hide();
     }
-    function newCheckbox(qid, display, qabstract, qop1, qop2, qop3, qop4) {
+    function newCheckbox(qid, qabstract, qop1, qop2, qop3, qop4) {
         var $end = $("#radioTemplate");
         var $template = $("#checkboxTemplate"),
             $clone = $template
@@ -133,8 +131,6 @@
                 .show()
                 .removeAttr('id')
                 .insertBefore($end);
-        if (display == 0)
-            $clone.hide();
         $clone.find("label[name='qname']").text("问题" + qid + ": " + qabstract);
         var $op1 = $clone.children(".icheck-wisteria");
         var $op2 = $clone.children(".icheck-midnightblue");
@@ -153,7 +149,7 @@
         if (qop3 == "") $op3.hide();
         if (qop4 == "") $op4.hide();
     }
-    function newText(qid, display, qabstract) {
+    function newText(qid, qabstract) {
         var $end = $("#radioTemplate");
         var $template = $("#textTemplate"),
             $clone = $template
@@ -161,12 +157,10 @@
                 .show()
                 .removeAttr('id')
                 .insertBefore($end);
-        if (display == 0)
-            $clone.hide();
         $clone.find("label[name='qname']").text("问题" + qid + ": " + qabstract);
         $clone.children("textarea").attr("name", "q" + qid);
     }
-    function newNum(qid, display, qabstract) {
+    function newNum(qid, qabstract) {
         var $end = $("#radioTemplate");
         var $template = $("#numTemplate"),
             $clone = $template
@@ -174,12 +168,10 @@
                 .show()
                 .removeAttr('id')
                 .insertBefore($end);
-        if (display == 0)
-            $clone.hide();
         $clone.find("label[name='qname']").text("问题" + qid + ": " + qabstract);
         $clone.children("input").attr("name", "q" + qid);
     }
-    function newScore(qid, display, qabstract) {
+    function newScore(qid, qabstract) {
         var $end = $("#radioTemplate");
         var $template = $("#scoreTemplate"),
             $clone = $template
@@ -187,8 +179,6 @@
                 .show()
                 .removeAttr('id')
                 .insertBefore($end);
-        if (display == 0)
-            $clone.hide();
         $clone.find("label[name='qname']").text("问题" + qid + ": " + qabstract);
         var $op1 = $clone.children(".icheck-pumpkin");
         var $op2 = $clone.children(".icheck-orange");
@@ -220,25 +210,25 @@
         else {
             $("p.text-faded").text("您还可填写" + limitnum + "次");
             for (let i in dataSet) {
-                switch (dataSet[i][3]) {
+                switch (dataSet[i][2]) {
                     case "1":
                     case "2":
                     case "3":
-                        newRadio(dataSet[i][0], dataSet[i][1], dataSet[i][2], dataSet[i][4], dataSet[i][5], dataSet[i][6], dataSet[i][7]);
+                        newRadio(dataSet[i][0], dataSet[i][1], dataSet[i][3], dataSet[i][4], dataSet[i][5], dataSet[i][6]);
                         break;
                     case "4":
                     case "5":
                     case "6":
-                        newCheckbox(dataSet[i][0], dataSet[i][1], dataSet[i][2], dataSet[i][4], dataSet[i][5], dataSet[i][6], dataSet[i][7]);
+                        newCheckbox(dataSet[i][0], dataSet[i][1], dataSet[i][3], dataSet[i][4], dataSet[i][5], dataSet[i][6]);
                         break;
                     case "7":
-                        newText(dataSet[i][0], dataSet[i][1], dataSet[i][2]);
+                        newText(dataSet[i][0], dataSet[i][1]);
                         break;
                     case "8":
-                        newNum(dataSet[i][0], dataSet[i][1], dataSet[i][2]);
+                        newNum(dataSet[i][0], dataSet[i][1]);
                         break;
                     case "9":
-                        newScore(dataSet[i][0], dataSet[i][1], dataSet[i][2]);
+                        newScore(dataSet[i][0], dataSet[i][1]);
                         break;
                     default:
                         break;
