@@ -7,6 +7,48 @@ let types: string[];
 let currentTitle: string;
 
 router.get('/', async function (req, res) {
+    let row: any = await mysqlQuery('select accesstype,accessnum from collection where id=?', [req.query.code]);
+    let accesstype: number = Number(row[0].accesstype.toString());
+    let accessnum: number = Number(row[0].accessnum.toString());
+    let author: string = "";
+    let qnum: number = 0;
+    let limit: boolean = false;
+    let limitnum: number = accessnum;
+    if (req.user == null)
+        author = ip.address();
+    else
+        author = req.user.local.email;
+    if (accesstype == 1 && req.user == null)
+        res.redirect('/login');
+    let ret1: any = await mysqlQuery('select count(*) from form_question where title=?', [req.query.title]);
+    for (let j in ret1[0]) {
+        qnum = Number(ret1[0][j].toString());
+    }
+    if (accesstype == 2) {
+        let ret2: any = await mysqlQuery('select count(*) from form_answer where username=?;', [author]);
+        let saved: number = 0;
+        for (let j in ret2[0]) {
+            saved = Number(ret2[0][j].toString());
+        }
+        if (saved >= qnum * accessnum) {
+            limit = true;
+        }
+        else {
+            limitnum -= saved / qnum;
+        }
+    } else if (accesstype == 3) {
+        let ret2: any = await mysqlQuery('select count(*) from form_answer where createdate >= date(now()) and createdate < DATE_ADD(date(now()),INTERVAL 1 DAY) and username=?;', [author]);
+        let saved: number = 0;
+        for (let j in ret2[0]) {
+            saved = Number(ret2[0][j].toString());
+        }
+        if (saved >= qnum * accessnum) {
+            limit = true;
+        }
+        else {
+            limitnum -= saved / qnum;
+        }
+    }
     let res_data: string[][] = [];
     types = [];
     currentTitle = req.query.title;
@@ -21,7 +63,9 @@ router.get('/', async function (req, res) {
         data: res_data
             .map(x => x.map(str => `"${str}"`).join(', '))
             .map(str => `[${str}]`).join(','),
-        title: currentTitle
+        title: currentTitle,
+        limit: limit,
+        limitnum: limitnum
     });
 });
 
@@ -38,7 +82,7 @@ function opParse(type: string, ops: any) {
             return 8;
     }
     else if (type == "4" || type == "5" || type == "6") {
-        let res:number = 0;
+        let res: number = 0;
         for (let i in ops) {
             let tmp: number = 0;
             if (ops[i] == "1")
@@ -48,7 +92,7 @@ function opParse(type: string, ops: any) {
             else if (ops[i] == "3")
                 tmp = 4;
             else if (ops[i] == "4")
-                tmp =  8;
+                tmp = 8;
             res |= tmp;
         }
         return res;
