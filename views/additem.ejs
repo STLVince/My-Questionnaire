@@ -34,7 +34,7 @@
                     </div>
                 </div>
                 <div class="form-group shadow-none p-3 mb-5 bg-light rounded" id="questionTemplate" style="display: none;">
-                    <label name="qid" value="0">问题0</label>
+                    <label name="qid">问题0</label>
                     <div class="form-group">
                         <label for="qabstract">题目描述</label>
                         <input type="text" class="form-control" id="qabstract">
@@ -91,11 +91,11 @@
             $clone = $template
                 .clone()
                 .show()
-                .removeAttr('id')
+                .attr('id', 'q' + index)
+                .attr('value', index)
                 .insertBefore($template);
         $clone.find('[name="qid"]')
             .text("问题" + index)
-            .attr('value', index)
             .end();
         $clone.find('[id="qabstract"]')
             .removeAttr('id')
@@ -155,11 +155,22 @@
     });
     $(document).on("click", "a.btn-warning", function () {
         var target = $(this).parent();
-        var isOnly = (target.find('[name="qid"]').attr("value") == "1");
+        var isOnly = target.attr("id") == "q1" && index == 1;
         if (isOnly)
             alert("问卷中至少需要一个问题");
-        else
+        else {
+            var nextq = target.next();
+            var id = Number(target.attr("value"));
             target.remove();
+            index--;
+            while (nextq.attr("id") != "questionTemplate") {
+                nextq.attr("id", "q" + id);
+                nextq.attr("value", id);
+                nextq.find("label[name='qid']").text("问题" + id);
+                id++;
+                nextq = nextq.next();
+            }
+        }
     });
     $(document).ready(function () {
         $("#addquestion").click(function () {
@@ -168,11 +179,11 @@
                 $clone = $template
                     .clone()
                     .show()
-                    .removeAttr('id')
+                    .attr('id', 'q' + index)
+                    .attr('value', index)
                     .insertBefore($template);
             $clone.find('[name="qid"]')
                 .text("问题" + index)
-                .attr('value', index)
                 .end();
             $clone.find('[id="qabstract"]')
                 .removeAttr('id')
