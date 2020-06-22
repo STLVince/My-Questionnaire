@@ -26,7 +26,7 @@ router.get('/', async function (req, res) {
 		let op7 = 0;
 		let total = 0;
 		let avg = 0;
-		if (rows2 == null)
+		if (rows2 == "")
 			break;
 		switch (rows2[0].type.toString()) {
 			case "1":
